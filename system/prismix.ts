@@ -2,6 +2,14 @@ import * as fs from 'fs';
 
 const baseFolder = './prisma/';
 
+function capitalizeFirstLetter(input: string): string {
+  if (input.length === 0) {
+    return input;
+  }
+
+  return input[0].toUpperCase() + input.slice(1);
+}
+
 async function generate(model: string) {
   try {
 
@@ -19,7 +27,7 @@ async function generate(model: string) {
       url      = ""
     }
     
-    model ${model} { 
+    model ${capitalizeFirstLetter(model)} { 
       id        String   @id @default(uuid())
        @@map("${model}s")}`);
 

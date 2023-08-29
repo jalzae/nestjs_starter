@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ControllerLoader } from '../system/load-controller';
 
-//()SumStart
-//()SumFunc: Module Ts
+const controllerLoader = new ControllerLoader();
+const controllers = controllerLoader.loadControllers('../app/controller');
+
+
 @Module({
   imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: controllers,
+  providers: [ControllerLoader],
 })
-export class AppModule {}
-//()SumEnd
+export class AppModule { }
+
