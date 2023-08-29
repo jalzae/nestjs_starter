@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HelloController } from './hello/hello.controller';
-import { HelloService } from './hello/hello.service';
 
+//()SumStart
+//()SumFunc: Module Ts
 @Module({
   imports: [],
-  controllers: [AppController, HelloController],
-  providers: [AppService, HelloService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
+//()SumEnd

@@ -1,14 +1,10 @@
 import { Controller, Get, Post, Res, Req, Query, Body } from '@nestjs/common';
-import { AppService } from './app.service';
-import { CreateUserDto } from 'app/validation/valid'
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) { }
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('/')
+  async index() {
+    return 'Hello Word!';
   }
 
   @Get('/json')
@@ -18,9 +14,12 @@ export class AppController {
     return res.json(data);
   }
 
+  //()SumStart
+  //()SumFunc:Hello
   @Post('/function')
-  async withvalidation(@Body() body: CreateUserDto, @Query() query: CreateUserDto, @Res() res) {
+  async withvalidation(@Body() body, @Query() query, @Res() res) {
     const data = { ...body, query };
     return res.json(data);
   }
+  //()SumEnd
 }

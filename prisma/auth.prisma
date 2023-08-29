@@ -1,0 +1,8 @@
+model Account {
+    id       Int    @id @default(autoincrement())
+    username String
+    email    String
+    status   String
+
+    @@map("accounts")
+}
