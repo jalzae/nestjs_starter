@@ -1,0 +1,16 @@
+datasource db {
+  provider = "mysql"
+  url      = ""
+}
+
+model user {
+  id        String   @id @default(uuid())
+  name      String   @db.VarChar(200)
+  email     String   @unique
+  photo     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
