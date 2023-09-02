@@ -21,7 +21,7 @@ export class AppModule implements NestModule {
 
     consumer
       .apply(TokenMiddleware)
-      .exclude('/',)
+      .exclude('/', '/user')
       .forRoutes('*');
 
 
