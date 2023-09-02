@@ -50,15 +50,15 @@ export function generateValidator(input: any, schema: any) {
         const inputValue = input[key];
         const valid = schema[key].valid;
         for (const item of valid) {
-          if (item.key == 'min' && !isMinLength(inputValue, item.value)) {
+          if (item.type === 'min' && !isMinLength(inputValue, item.value)) {
             messageError.push(`${key} should be a min ${item.value} character`);
-          } else if (item.key == 'max' && !isMaxLength(inputValue, item.value)) {
+          } else if (item.type === 'max' && !isMaxLength(inputValue, item.value)) {
             messageError.push(`${key} should be a max ${item.value} character`);
-          } else if (item.key == '>' && !isLengthComparison(inputValue, item.key, item.value)) {
+          } else if (item.type === '>' && !isLengthComparison(inputValue, item.key, item.value)) {
             messageError.push(`${key} should be a more than ${item.value}`);
-          } else if (item.key == '<' && !isLengthComparison(inputValue, item.key, item.value)) {
+          } else if (item.type === '<' && !isLengthComparison(inputValue, item.key, item.value)) {
             messageError.push(`${key} should be a less than ${item.value}`);
-          } else if (item.key == '=' && !isLengthComparison(inputValue, item.key, item.value)) {
+          } else if (item.type === '=' && !isLengthComparison(inputValue, item.key, item.value)) {
             messageError.push(`${key} should be a equal ${item.value}`);
           }
         }
