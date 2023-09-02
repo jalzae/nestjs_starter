@@ -7,6 +7,7 @@ export class user {
       name: {
         type: 'string',
         required: 'required',
+        valid: [{ type: 'min', value: 5 }]
       },
       email: {
         type: 'email',
