@@ -3,7 +3,7 @@ import { UserController } from './routes/user/user.controller';
 import { AppController } from './routes/app.controller';
 import { PrismaModule } from './prisma/prisma.module';
 import { ModelService } from './core/model.service';
-import { TokenMiddleware } from 'app/middleware/token';
+import { TokenMiddleware } from '../app/middleware/token';
 
 @Module({
   imports: [PrismaModule],
