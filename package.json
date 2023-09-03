@@ -19,7 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "generate:model": "ts-node system/prismix.ts"
+    "generate:model": "ts-node system/prismix.ts",
+    "auto:model": "ts-node system/model.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

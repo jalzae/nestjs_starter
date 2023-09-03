@@ -1,8 +1,8 @@
 import { Response } from 'express';
 
-export function success(res: Response, statusCode: number = 200, status: boolean = true, message: string = 'Sukses', data?: any) {
+export function success(res: Response, statusCode: number = 200, message: string = 'Sukses', data?: any) {
   return res.status(statusCode).json({
-    status, message, data
+    status: true, message, data
   })
 }
 

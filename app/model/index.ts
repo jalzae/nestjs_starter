@@ -1,1 +1,1 @@
-//todo mapping class
+export { user } from './user';
