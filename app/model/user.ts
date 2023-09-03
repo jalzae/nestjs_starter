@@ -3,6 +3,7 @@ export class user {
     return {
       id: {
         type: 'uuid',
+        datatype: 'enc'
       },
       name: {
         type: 'string',
@@ -11,18 +12,21 @@ export class user {
       },
       email: {
         type: 'email',
-        required: 'required'
+        required: 'required',
+        datatype: 'string'
       },
       photo: {
         type: 'string',
+        datatype: 'string'
       }
     }
   }
 
-  setup(paranoid: boolean = true) {
+  setup(): { paranoid: boolean; delete: string; table: string } {
     return {
-      paranoid,
-      table: 'users'
+      paranoid: true,
+      delete: 'deletedAt',
+      table: 'user'
     }
   }
 }

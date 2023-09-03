@@ -9,25 +9,28 @@ export class UserController {
   constructor(public readonly model: ModelService) { }
   @Get('/')
   async index(@Res() res) {
-    const data = await this.model.findAll('user')
+    const data = await this.model.findOne('user', { id: 2 })
     return res.json({
-      status: true,
+      status: data,
       message: 'Connected',
-      data
     });
   }
 
   @Post('/')
   async create(@Req() req, @Res() res) {
     try {
-      const { init, setup } = new user();
+      const { init } = new user();
 
       const result = validation(req.body, init())
       if (!result.status) throw result.message
 
+      const data = await this.model.create('user', req.body)
+      if (!data) throw data.err;
+
       return success(res,
         200,
         'Sukses',
+        data
       )
 
     } catch (e: any) {

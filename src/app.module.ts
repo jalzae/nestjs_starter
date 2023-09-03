@@ -6,13 +6,16 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ModelService } from './core/model.service';
 import { TokenMiddleware } from '../app/middleware/token';
 import { NotFoundMiddleware } from './core/exception_filter';
+import { RouteInfo } from '@nestjs/common/interfaces';
 
 @Module({
   imports: [PrismaModule],
   providers: [ModelService],
   controllers: [AppController, UserController]
 })
+
 export class AppModule implements NestModule {
+
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(NotFoundMiddleware)
