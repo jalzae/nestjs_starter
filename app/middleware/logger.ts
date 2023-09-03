@@ -30,12 +30,14 @@ export class LogMiddleware implements NestMiddleware {
       date: new Date().toISOString(),
       ip,
       method,
-      url: `${originalUrl}/${JSON.stringify(routeParams)}?${JSON.stringify(params)}`,
+      url: `${originalUrl}`,
+      params: `${JSON.stringify(routeParams)}`,
+      query: `${JSON.stringify(params)} `,
       headers,
       body,
     };
 
-    const logEntry = JSON.stringify(logData, null, 2); 
+    const logEntry = JSON.stringify(logData, null, 2);
     const logDirectory = path.join(__dirname, '..', 'writable', 'logs');
     const logFileName = `${new Date().toISOString().split('T')[0]}.log`;
     const logFilePath = path.join(logDirectory, logFileName);
