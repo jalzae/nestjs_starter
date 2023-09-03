@@ -13,8 +13,17 @@ export class TokenMiddleware implements NestMiddleware {
         return res.status(401).json({ status: false, message: 'Service not found' });
       }
       req['service'] = authHeader;
+      const isAuthorizedValue = this.isAuthorized(authHeader);
+      if (!isAuthorizedValue) {
+        return res.status(401).json({ status: false, message: 'Service not have access' });
+      }
     }
 
     next();
+  }
+
+  isAuthorized(authHeader: string | string[]) {
+    const allowedList = ['localhost', 'drmarket'];
+    return allowedList.includes(authHeader.toString());
   }
 }
