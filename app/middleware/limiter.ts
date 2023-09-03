@@ -10,11 +10,6 @@ export class RateLimitMiddleware implements NestMiddleware {
   private readonly requestLog: Record<string, { count: number, lastAccessed: number }> = {};
 
   use(req: Request, res: Response, next: NextFunction) {
-    const headers = req.headers;
-    const body = req.body;
-    const params = req.query;
-    const routeParams = req.params;
-
     const { originalUrl, method, ip } = req;
     const key = `${method}-${originalUrl}-${ip}`;
 
@@ -35,7 +30,6 @@ export class RateLimitMiddleware implements NestMiddleware {
       }
     }
 
-    console.log(`User with IP ${ip} accessed ${method} ${originalUrl}`);
 
     next();
   }

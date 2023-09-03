@@ -6,7 +6,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ModelService } from './core/model.service';
 import { TokenMiddleware } from '../app/middleware/token';
 import { NotFoundMiddleware } from './core/exception_filter';
-import { RouteInfo } from '@nestjs/common/interfaces';
+import { RateLimitMiddleware } from '../app/middleware/limiter';
+import { LogMiddleware } from '../app/middleware/logger';
 
 @Module({
   imports: [PrismaModule],
@@ -20,6 +21,14 @@ export class AppModule implements NestModule {
     consumer
       .apply(NotFoundMiddleware)
       .exclude('/', '/user')
+      .forRoutes('*');
+
+    consumer
+      .apply(RateLimitMiddleware)
+      .forRoutes('*');
+
+    consumer
+      .apply(LogMiddleware)
       .forRoutes('*');
 
     consumer
