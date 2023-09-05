@@ -1,4 +1,4 @@
-import { validate, IsNotEmpty, IsString, IsEmail } from 'class-validator';
+
 
 export function generateValidator(input: any, schema: any) {
   try {
@@ -80,10 +80,70 @@ export function generateValidator(input: any, schema: any) {
   }
 }
 
+function validate(input: any, schema: any) {
+  const messageError = []
+  for (const key in schema) {
+    if (input[key] && schema[key]) {
+      //cek kesesuaian type 
+      const type = schema[key]
+      const inputValue = input[key];
 
-export function validation(input: any, schema: any) {
+      if (type === 'string' && typeof inputValue !== 'string') {
+        messageError.push(`${key} should be a string`);
+      } else if (type === 'bool' && typeof inputValue !== 'boolean') {
+        messageError.push(`${key} should be a string`);
+      } else if (type === 'email' && !isValidEmail(inputValue)) {
+        messageError.push(`${key} should be a valid email`);
+      } else if (type === 'number' && !isNumber(inputValue)) {
+        messageError.push(`${key} should be a valid number`);
+      } else if (type === 'pass' && !isValidCustomType(inputValue)) {
+        messageError.push(`${key} should be a valid password matched with uppercase,symbol,no space`);
+      } else if (type === 'array' && !isArray(inputValue)) {
+        messageError.push(`${key} should be a valid array`);
+      } else if (type === 'object' && !isObject(inputValue)) {
+        messageError.push(`${key} should be a valid object`);
+      } else if (type === 'uuid' && !isValidUUID(inputValue)) {
+        messageError.push(`${key} should be a valid UUID`);
+      } else if (type === 'date' && !isDate(inputValue)) {
+        messageError.push(`${key} should be a valid date format y-m-d`);
+      } else if (type === 'datetime' && !isDateTime(inputValue)) {
+        messageError.push(`${key} should be a valid datetime format y-m-d h:m:s`);
+      }
+    }
+
+    if (input[key] && schema[key].valid) {
+      const inputValue = input[key];
+      const valid = schema[key].valid;
+      for (const item of valid) {
+        if (item.type === 'min' && !isMinLength(inputValue, item.value)) {
+          messageError.push(`${key} should be a min ${item.value} character`);
+        } else if (item.type === 'max' && !isMaxLength(inputValue, item.value)) {
+          messageError.push(`${key} should be a max ${item.value} character`);
+        } else if (item.type === '>' && !isLengthComparison(inputValue, item.key, item.value)) {
+          messageError.push(`${key} should be a more than ${item.value}`);
+        } else if (item.type === '<' && !isLengthComparison(inputValue, item.key, item.value)) {
+          messageError.push(`${key} should be a less than ${item.value}`);
+        } else if (item.type === '=' && !isLengthComparison(inputValue, item.key, item.value)) {
+          messageError.push(`${key} should be a equal ${item.value}`);
+        }
+      }
+    }
+  }
+  return messageError
+}
+
+
+export function validation(input: any, schema: string | string[]) {
   try {
-    const result = generateValidator(input, schema)
+    let result: any = false
+    if (typeof schema === 'string') {
+      result = generateValidator(input, schema)
+    } else if (Array.isArray(schema)) {
+      result = validate(input, schema)
+    } else {
+      throw false;
+    }
+
 
     return result
   } catch (error) {
@@ -95,14 +155,14 @@ export function validation(input: any, schema: any) {
 }
 
 // Helper functions to validate email and UUID
-function isValidEmail(email) {
+function isValidEmail(email: string) {
   // You can implement your email validation logic here
   // For a basic check, you can use a regular expression
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
 
-function isValidUUID(uuid) {
+function isValidUUID(uuid: string) {
   // You can implement your UUID validation logic here
   // For a basic check, you can use a regular expression
   const uuidRegex = /^[a-f\d]{8}-([a-f\d]{4}-){3}[a-f\d]{12}$/i;
